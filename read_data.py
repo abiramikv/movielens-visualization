@@ -78,9 +78,16 @@ def freqPopularBest():
 popular, best = freqPopularBest()
 
 def freqPopular():
-    print("MOST POPULAR")
+    numRatings = []
     for movie in popular:
-        print(movieInfo[movie]['title'])
+        numRatings.append(movieInfo[movie]['ratings'])
+
+    plt.hist(numRatings, bins=[1,2,3,4,5,6], align='left', stacked=True)
+    plt.title("Distribution of Ratings for Most Popular Movies")
+    plt.xlabel("Rating")
+    plt.ylabel("Frequency")
+    plt.savefig('popularFreq.png')
+    plt.clf()
 
 def freqBest():
     print("BEST RATED")
