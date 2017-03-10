@@ -2,10 +2,8 @@ import latent_model as lm
 import numpy as np
 import pickle
 
-movieData = np.loadtxt("movies.txt", delimiter='\t', dtype=bytes)
+movieData = np.loadtxt("data/movies.txt", delimiter='\t', dtype=bytes)
 movieData = [[item.decode('utf-8') for item in row] for row in movieData]
-
-users, movies, ratings = np.loadtxt("data.txt", unpack=True, dtype=int)
 
 def projectMovies(N, M, Y):
     U, V, error = lm.train_model(M, N, 20, 0.02, 0.001, Y)
@@ -22,10 +20,10 @@ def projectMovies(N, M, Y):
         movieInfo[i]['coords'] = (V_coords[0][i], V_coords[1][i])
 
 def parseRatings():
-    users, movies, _ = np.loadtxt("data.txt", unpack=True, dtype=int)
+    users, movies, _ = np.loadtxt("data/data.txt", unpack=True, dtype=int)
     M = np.max(users)
     N = np.max(movies)
-    Y = np.loadtxt("data.txt", dtype=int)
+    Y = np.loadtxt("data/data.txt", dtype=int)
     for _, j, y in Y:
         movieInfo[j-1]['ratings'].append(y)
     return N, M, Y
@@ -61,5 +59,5 @@ movieInfo = [parseMovie(label) for label in movieData]
 N, M, Y = parseRatings()
 projectMovies(N, M, Y)
 
-with open('movie_info.pickle', 'wb') as handle:
+with open('data/movie_info.pickle', 'wb') as handle:
     pickle.dump(movieInfo, handle)

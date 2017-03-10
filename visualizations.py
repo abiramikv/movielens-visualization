@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 
-with open('movie_info.pickle', 'rb') as handle:
+with open('data/movie_info.pickle', 'rb') as handle:
     movieInfo = pickle.load(handle)
 
 random = [0, 120, 255, 49, 21, 1479, 1469, 1, 1273, 448]
@@ -13,7 +13,7 @@ horrors = [i for i, m in enumerate(movieInfo) if "Horror" in m["genre"]]
 actions = [i for i, m in enumerate(movieInfo) if "Action" in m["genre"]]
 
 
-def makeScatter(movies, filename, title):
+def makeScatterPlot(movies, filename, title):
     x = [movieInfo[i]["coords"][0] for i in movies]
     y = [movieInfo[i]["coords"][1] for i in movies]
 
@@ -32,12 +32,12 @@ def part1():
     pass
 
 def part2():
-    makeScatter(random, "random_scatter.png", "10 Random Movies")
-    makeScatter(popular, "popular_scatter.png", "10 Most Popular Movies")
-    makeScatter(best, "best_scatter.png", "10 Highest Rated Movies")
-    makeScatter(dramas[:10], "drama_scatter.png", "10 Drama Movies")
-    makeScatter(horrors[:10], "horror_scatter.png", "10 Horror Movies")
-    makeScatter(actions[:10], "action_scatter.png", "10 Action Movies")
+    makeScatterPlot(random, "random_scatter.png", "10 Random Movies")
+    makeScatterPlot(popular, "popular_scatter.png", "10 Most Popular Movies")
+    makeScatterPlot(best, "best_scatter.png", "10 Highest Rated Movies")
+    makeScatterPlot(dramas[:10], "drama_scatter.png", "10 Drama Movies")
+    makeScatterPlot(horrors[:10], "horror_scatter.png", "10 Horror Movies")
+    makeScatterPlot(actions[:10], "action_scatter.png", "10 Action Movies")
 
 def freqAll():
     n, bins, patches = plt.hist(ratings, bins=[1,2,3,4,5,6], align='left')
