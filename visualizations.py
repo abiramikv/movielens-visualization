@@ -5,7 +5,39 @@ import pickle
 with open('movie_info.pickle', 'rb') as handle:
     movieInfo = pickle.load(handle)
 
-print movieInfo[0]
+random = [0, 120, 255, 49, 21, 1479, 1469, 1, 1273, 448]
+popular = np.argsort([len(movie['ratings']) for movie in movieInfo])[-10:]
+best = np.argsort([np.mean(movie['ratings']) for movie in movieInfo])[-10:]
+dramas = [i for i, m in enumerate(movieInfo) if "Drama" in m["genre"]]
+horrors = [i for i, m in enumerate(movieInfo) if "Horror" in m["genre"]]
+actions = [i for i, m in enumerate(movieInfo) if "Action" in m["genre"]]
+
+
+def makeScatter(movies, filename, title):
+    x = [movieInfo[i]["coords"][0] for i in movies]
+    y = [movieInfo[i]["coords"][1] for i in movies]
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(10, 10)
+    ax.set_xlim([-1, 1])
+    ax.set_ylim([-1, 1])
+    ax.set_title("Latent Factor Visualation for " + title)
+    ax.scatter(x, y)
+    for i, j in enumerate(movies):
+        ax.annotate(movieInfo[j]["title"], (x[i] + 0.015, y[i] - 0.015))
+    fig.savefig("img/" + filename)
+    fig.clf()
+
+def part1():
+    pass
+
+def part2():
+    makeScatter(random, "random_scatter.png", "10 Random Movies")
+    makeScatter(popular, "popular_scatter.png", "10 Most Popular Movies")
+    makeScatter(best, "best_scatter.png", "10 Highest Rated Movies")
+    makeScatter(dramas[:10], "drama_scatter.png", "10 Drama Movies")
+    makeScatter(horrors[:10], "horror_scatter.png", "10 Horror Movies")
+    makeScatter(actions[:10], "action_scatter.png", "10 Action Movies")
 
 def freqAll():
     n, bins, patches = plt.hist(ratings, bins=[1,2,3,4,5,6], align='left')
@@ -23,21 +55,6 @@ def freqAll():
     plt.title("Distribution of Ratings", y=1.025)
     plt.savefig('ratingsPie.png')
     plt.clf()
-
-def freqPopularBest():
-    numRatings = []
-    avgRatings = []
-
-    for i in range(len(movieInfo)):
-        numRatings.append(len(movieInfo[i]['ratings']))
-        avgRatings.append(np.mean(movieInfo[i]['ratings']))
-
-    popular = np.argsort(numRatings)[-10:]
-    best = np.argsort(avgRatings)[-10:]
-
-    return popular, best
-
-popular, best = freqPopularBest()
 
 def freqPopular():
     numRatings = []
@@ -58,3 +75,5 @@ def freqBest():
 
 freqPopular()
 freqBest()
+
+part1() and part2()
