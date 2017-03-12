@@ -9,9 +9,7 @@ def projectMovies(N, M, Y):
     U, V, error = lm.train_model(M, N, 20, 0.02, 0.001, Y)
 
     a, s, b = np.linalg.svd(V, full_matrices=False)
-
     V_coords = np.dot(a[:2], V)
-    U_coords = np.dot(a[:2], U.T)
 
     V_coords[0] /= np.max(np.abs(V_coords[0]))
     V_coords[1] /= np.max(np.abs(V_coords[1]))
