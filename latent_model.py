@@ -66,7 +66,7 @@ def train_model(M, N, K, eta, reg, Y, eps=0.0001, max_epochs=300):
     V = np.random.random((K,N)) - 0.5
     size = Y.shape[0]
     delta = None
-    indices = range(size)
+    indices = list(range(size))
     for epoch in range(max_epochs):
         # Run an epoch of SGD
         before_E_in = get_err(U, V, Y, reg)
